@@ -304,10 +304,10 @@ public class K4LVideoTrimmer extends FrameLayout {
     }
 
     private void onSaveClicked() {
-        if (mStartPosition <= 0 && mEndPosition >= mDuration) {
-            if (mOnTrimVideoListener != null)
-                mOnTrimVideoListener.getResult(mSrc);
-        } else {
+//        if (mStartPosition <= 0 && mEndPosition >= mDuration) {
+//            if (mOnTrimVideoListener != null)
+//                mOnTrimVideoListener.getResult(mSrc);
+//        } else {
             mPlayView.setVisibility(View.VISIBLE);
             mVideoView.pause();
 
@@ -337,7 +337,18 @@ public class K4LVideoTrimmer extends FrameLayout {
             final String outPutPath = getRealPathFromUri(outputFileUri);
 
             FFmpeg ffmpeg = FFmpeg.getInstance(getContext());
-            String[] command = {"-y",  "-i", file.getPath(), "-ss", stringForTime(mStartPosition), "-to", stringForTime(mEndPosition), "-c", "copy", outPutPath};//{"-y", "-ss", "00:00:03", "-i", file.getPath(), "-t", "00:00:08", "-async", "1", outPutPath};  //-i movie.mp4 -ss 00:00:03 -t 00:00:08 -async 1 cut.mp4
+
+        String[] command = {"-y", "-i", file.getPath(), "-ss", stringForTime(mStartPosition), "-to", stringForTime(mEndPosition), "-c", "copy", outPutPath};//{"-y", "-ss", "00:00:03", "-i", file.getPath(), "-t", "00:00:08", "-async", "1", outPutPath};  //-i movie.mp4 -ss 00:00:03 -t 00:00:08 -async 1 cut.mp4
+
+
+//        String[] command = {"-y", "-i", file.getPath(), "-vf", "scale=640:-1",  /*"-s", "640x480",*/ "-qscale", "13", /*"-vcodec", "h264", "-b:v", "64k", "-acodec", "mp3",*/ "-ss", stringForTime(mStartPosition), "-to", stringForTime(mEndPosition), /*"-c", "copy",*/ outPutPath};//{"-y", "-ss", "00:00:03", "-i", file.getPath(), "-t", "00:00:08", "-async", "1", outPutPath};  //-i movie.mp4 -ss 00:00:03 -t 00:00:08 -async 1 cut.mp4
+
+//            ffmpeg -i /storage/emulated/0/Movies/Instagram/VID_219920217_214928_732.mp4 -vf scale=-1:480.0 -threads 16 -c:v libx264 -maxrate 1984k -bufsize 3968k -ac 2 -vf format=yuv420p -g 60 -c:a aac -b:a 128k -ar 44100 -movflags +faststart -profile:v baseline -level 3.1 -crf 28 -preset ultrafast -strict -2 /storage/emulated/0/Android/data/com.staze/cache/1514433292621.mp4
+//            String[] command = {"-y", "-i", file.getPath(), "-vf", "scale=-1:480.0", "-threads", "16", "-c:v", "libx264", "-maxrate", "1984k", "-bufsize", "3968k", "-ac", "2", "-vf", "format=yuv420p", "-g", "60", "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-movflags", "+faststart", "-profile:v", "baseline", "-level", "3.1", "-crf", "28", "-preset", "ultrafast", "-strict", "-2", outPutPath};
+
+//            ffmpeg -y -i in.mp4 -strict experimental -r 30 -ab 48000 -ac 2 -ar 48000 -vcodec mpeg4 -b 2097152 out.mp4"
+//            String[] command = {"-y", "-i", file.getPath(), "-strict", "experimental", "-r", "30", "-ab", "48000", "-ac", "2", "-ar", "48000", "-vcodec", "mpeg4", "-b", "2097152", outPutPath};
+
             try {
                 ffmpeg.execute(command, new ExecuteBinaryResponseHandler(){
                     @Override
@@ -380,7 +391,7 @@ public class K4LVideoTrimmer extends FrameLayout {
             //notify that video trimming started
             if (mOnTrimVideoListener != null)
                 mOnTrimVideoListener.onTrimStarted();
-        }
+//        }
     }
 
     private String getRealPathFromUri(Uri videoUri) {
