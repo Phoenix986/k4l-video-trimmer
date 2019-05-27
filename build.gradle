@@ -20,7 +20,8 @@ project.ext{
 allprojects {
     repositories {
         jcenter()
-    }
+		google()
+	}
 }
 
 task clean(type: Delete) {
