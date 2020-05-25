@@ -328,7 +328,7 @@ public class K4LVideoTrimmer extends FrameLayout {
 
             Log.d(TAG, "onSaveClicked: mStartPosition: "+stringForTime(mStartPosition)+ " #### mEndPosition: "+stringForTime(mEndPosition));
 
-            final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "k4lVideoTrimmer" + File.separator);
+            final File root = new File(getDestinationPath()); //new File(Environment.getExternalStorageDirectory() + File.separator + "k4lVideoTrimmer" + File.separator);
             root.mkdirs();
             final String fname = "t_"+mSrc.getPath().substring(mSrc.getPath().lastIndexOf("/") + 1);
             final File sdImageMainDirectory = new File(root, fname);
